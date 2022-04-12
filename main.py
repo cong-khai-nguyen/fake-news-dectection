@@ -10,3 +10,7 @@ y = df['label']
 # print(y.head())
 
 print(df.shape)
+# Check if there is null values indicating missing values
+# print(df.isna())
+# Drop rows where it has missing values
+df.dropna(inplace=True)
