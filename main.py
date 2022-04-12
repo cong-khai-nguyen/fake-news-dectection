@@ -1,5 +1,8 @@
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
+from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+
 df = pd.read_csv('data/train.csv')
 
 # print(df.head())
@@ -14,3 +17,7 @@ print(df.shape)
 # print(df.isna())
 # Drop rows where it has missing values
 df.dropna(inplace=True)
+print(df.shape)
+
+copy = df.copy()
+copy.reset_index(inplace=True)
