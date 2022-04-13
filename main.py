@@ -46,6 +46,11 @@ for i in range(len(copy)):
 count_vect = CountVectorizer(max_features=5000, ngram_range=(1, 3))
 x = count_vect.fit_transform(corpus).toarray()
 
+# print(x.shape)
+# count_df = pd.DataFrame(data=x,columns = count_vect.get_feature_names())
+# print(count_df)
 
-df = pd.DataFrame(data=x,columns = count_vect.get_feature_names())
-print(df)
+y = copy['label']
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.30)
+
