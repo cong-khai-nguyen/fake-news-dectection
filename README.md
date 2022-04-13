@@ -15,6 +15,6 @@ https://www.kaggle.com/competitions/fake-news/data
 > > * text: the text of the article; could be incomplete
 > > 
 > > * label: a label that marks the article as potentially unreliable
-> > * * 1: unreliable
-> > * * 0: reliable
+> > > * 1: unreliable
+> > > * 0: reliable
 
