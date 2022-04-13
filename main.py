@@ -1,8 +1,9 @@
 import pandas as pd
 import re as regex
 from sklearn.feature_extraction.text import CountVectorizer
-import nltk
-nltk.download('stopwords')
+from sklearn.model_selection import train_test_split
+# import nltk
+# nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 ps = PorterStemmer()
@@ -27,12 +28,17 @@ copy.reset_index(inplace=True)
 
 print(copy['title'][2])
 
-# Replace all the special characters in the title column with space to create a bag of words
 corpus = []
 
 for i in range(len(copy)):
-    review = regex.sub('[^a-z-A-Z]', ' ', copy['title'][i])
+    # Replace all the special characters in the title column with space to create a bag of words
+    review = regex.sub('[^a-zA-Z]', ' ', copy['title'][i])
     review = review.lower()
     review = review.split()
     # stem all the words in the title if those words are not the stopwords list
     review = [ps.stem(word) for word in review if not word in stopwords.words('english')]
+    # print(review)
+    # Convert it back from array to string
+    review = ' '.join(review)
+    # print(review)
+    corpus.append(review)
