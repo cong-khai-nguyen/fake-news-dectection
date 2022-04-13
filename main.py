@@ -2,6 +2,9 @@ import pandas as pd
 import re as regex
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn import metrics
+import pickle
 # import nltk
 # nltk.download('stopwords')
 from nltk.corpus import stopwords
@@ -43,7 +46,7 @@ for i in range(len(copy)):
     # print(review)
     corpus.append(review)
 
-count_vect = CountVectorizer(max_features=5000, ngram_range=(1, 3))
+count_vect = CountVectorizer(max_features = 5000, ngram_range=(1, 3))
 x = count_vect.fit_transform(corpus).toarray()
 
 # print(x.shape)
@@ -51,6 +54,17 @@ x = count_vect.fit_transform(corpus).toarray()
 # print(count_df)
 
 y = copy['label']
-
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.30)
+try:
+    with open("model.pickle", "rb") as f:
+        classifer = pickle.load(f)
+except:
+    classifer = MultinomialNB()
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.30)
+    classifer.fit(x_train, y_train)
+    with open("model.pickle", "wb") as f:
+        pickle.dump((classifer), f)
 
+pred = classifer.predict(x_test)
+score = metrics.accuracy_score(pred, y_test)
+print(score)
