@@ -3,6 +3,7 @@ import numpy as np
 import re as regex
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import PassiveAggressiveClassifier
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 import pickle
@@ -104,6 +105,9 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
 
 
-pred = classifer.predict(x_test)
-score = metrics.accuracy_score(pred, y_test)
-print(score)
+prediction = classifer.predict(x_test)
+score = metrics.accuracy_score(y_test, prediction)
+print("accuracy:   %0.3f" % score)
+cm = metrics.confusion_matrix(y_test, prediction)
+plot_confusion_matrix(cm, classes=['FAKE', 'REAL'])
+
