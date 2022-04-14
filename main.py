@@ -60,7 +60,7 @@ try:
         classifer = pickle.load(f)
 except:
     classifer = MultinomialNB()
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.30)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.10)
     classifer.fit(x_train, y_train)
     with open("model.pickle", "wb") as f:
         pickle.dump((classifer), f)
