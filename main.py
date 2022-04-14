@@ -111,3 +111,12 @@ print("accuracy:   %0.3f" % score)
 cm = metrics.confusion_matrix(y_test, prediction)
 plot_confusion_matrix(cm, classes=['FAKE', 'REAL'])
 
+
+# Use PassiveAgressive Classifer to find out whether its a better model
+linear_clf = PassiveAggressiveClassifier(n_iter=50)
+linear_clf.fit(x_train, y_train)
+pred = linear_clf.predict(x_test)
+score = metrics.accuracy_score(y_test, pred)
+print("accuracy:   %0.3f" % score)
+cm = metrics.confusion_matrix(y_test, pred, labels=['FAKE', 'REAL'])
+plot_confusion_matrix(cm, classes=['FAKE', 'REAL'])
