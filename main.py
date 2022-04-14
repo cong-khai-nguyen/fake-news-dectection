@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import re as regex
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import PassiveAggressiveClassifier
 from sklearn.naive_bayes import MultinomialNB
@@ -49,7 +50,8 @@ for i in range(len(copy)):
     review = ' '.join(review)
     # print(review)
     corpus.append(review)
-
+tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_df=0.7)
+tfidf_x = tfidf_vectorizer.fit_transform(corpus).toarray()
 count_vect = CountVectorizer(max_features = 5000, ngram_range=(1, 3))
 x = count_vect.fit_transform(corpus).toarray()
 
@@ -57,8 +59,11 @@ x = count_vect.fit_transform(corpus).toarray()
 # count_df = pd.DataFrame(data=x,columns = count_vect.get_feature_names())
 # print(count_df)
 
+
+
 y = copy['label']
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.30)
+tfidf_x_train, tfidf_x_test, tfidf_y_train, tfidf_y_test = train_test_split(tfidf_x, y, test_size = 0.10)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.10)
 try:
     with open("model.pickle", "rb") as f:
         classifer = pickle.load(f)
@@ -108,15 +113,15 @@ def plot_confusion_matrix(cm, classes,
 prediction = classifer.predict(x_test)
 score = metrics.accuracy_score(y_test, prediction)
 print("accuracy:   %0.3f" % score)
-cm = metrics.confusion_matrix(y_test, prediction)
-plot_confusion_matrix(cm, classes=['FAKE', 'REAL'])
+# cm = metrics.confusion_matrix(y_test, prediction)
+# plot_confusion_matrix(cm, classes=['FAKE', 'REAL'])
 
 
 # Use PassiveAgressive Classifer to find out whether its a better model
-linear_clf = PassiveAggressiveClassifier(n_iter=50)
-linear_clf.fit(x_train, y_train)
-pred = linear_clf.predict(x_test)
-score = metrics.accuracy_score(y_test, pred)
+linear_clf = PassiveAggressiveClassifier(max_iter=50)
+linear_clf.fit(tfidf_x_train, tfidf_y_train)
+pred = linear_clf.predict(tfidf_x_test)
+score = metrics.accuracy_score(tfidf_y_test, pred)
 print("accuracy:   %0.3f" % score)
-cm = metrics.confusion_matrix(y_test, pred, labels=['FAKE', 'REAL'])
-plot_confusion_matrix(cm, classes=['FAKE', 'REAL'])
+# cm = metrics.confusion_matrix(y_test, pred)
+# plot_confusion_matrix(cm, classes=['FAKE', 'REAL'])
