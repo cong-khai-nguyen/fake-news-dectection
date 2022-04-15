@@ -1,5 +1,5 @@
 # Fake News Dectection
-Link:
+Link: https://colab.research.google.com/drive/1e5IMIbv7xWx1TwQjxZU4SeiPUqaxKyiq?usp=sharing
 
 # Description
 In this project, I use scikit-learn's multinomial Naive Bayes classifer to classify news articles into fake or real categories from the text of each given article. The reason I use multinomial Naive Bayes is because it is well-known and suitable for classification with discrete features like word counts for text classification. One thing that I learn from this project is the use of stop words and multinomial Naive Bayes classifer. Without any parameter tuning, I am able to achieve 92% accuracy on the model. I even try out the passive agressive classifier since there are a lot of great write-ups about how linear model work well with count vectorizer.
